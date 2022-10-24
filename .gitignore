@@ -1,0 +1,147 @@
+# Flutter/Dart/Pub related
+flutter_module_rm/**/doc/api/
+flutter_module_rm/**/ios/Flutter/.last_build_id
+flutter_module_rm/.dart_tool/
+flutter_module_rm/.flutter-plugins
+flutter_module_rm/.flutter-plugins-dependencies
+flutter_module_rm/.packages
+flutter_module_rm/.pub-cache/
+flutter_module_rm/.pub/
+flutter_module_rm//build/
+
+# Web related
+flutter_module_rm/lib/generated_plugin_registrant.dart
+
+flutter_module_rm/.DS_Store
+flutter_module_rm/.idea/
+flutter_module_rm/.vscode/
+flutter_module_rm/.vagrant/
+flutter_module_rm/.sconsign.dblite
+flutter_module_rm/.svn/
+
+flutter_module_rm/*.swp
+flutter_module_rm/profile
+
+flutter_module_rm/DerivedData/
+
+flutter_module_rm/.generated/
+
+flutter_module_rm/*.pbxuser
+flutter_module_rm/*.mode1v3
+flutter_module_rm/*.mode2v3
+flutter_module_rm/*.perspectivev3
+
+flutter_module_rm/!default.pbxuser
+flutter_module_rm/!default.mode1v3
+flutter_module_rm/!default.mode2v3
+flutter_module_rm/!default.perspectivev3
+
+flutter_module_rm/xcuserdata
+
+flutter_module_rm/*.moved-aside
+
+flutter_module_rm/*.pyc
+flutter_module_rm/*sync/
+flutter_module_rm/.tags*
+
+flutter_module_rm/build/
+flutter_module_rm/.android/
+flutter_module_rm/.ios/
+
+# Symbolication related
+flutter_module_rm/app.*.symbols
+
+# Obfuscation related
+flutter_module_rm/app.*.map.json
+
+# node.js
+#
+flutter_module_rm/node_modules/
+flutter_module_rm/npm-debug.log
+flutter_module_rm/yarn-error.log
+
+# Xcode
+#
+flutter_module_rm/*.xccheckout
+flutter_module_rm/DerivedData
+flutter_module_rm/*.hmap
+flutter_module_rm/*.ipa
+flutter_module_rm/*.xcuserstate
+flutter_module_rm/project.xcworkspace
+
+# Android/IntelliJ
+#
+flutter_module_rm/.gradle
+flutter_module_rm/local.properties
+flutter_module_rm/*.iml
+flutter_module_rm/android-rn/gradle
+flutter_module_rm/android-rn/gradlew*
+flutter_module_rm/android/
+
+# BUCK
+flutter_module_rm/buck-out/
+flutter_module_rm/.buckd/
+flutter_module_rm/*.keystore
+
+# ReactNative
+# OSX
+#
+ReactNative/.DS_Store
+
+# Xcode
+#
+ReactNative/build/
+ReactNative/*.pbxuser
+ReactNative/!default.pbxuser
+ReactNative/*.mode1v3
+ReactNative/!default.mode1v3
+ReactNative/*.mode2v3
+ReactNative/!default.mode2v3
+ReactNative/*.perspectivev3
+ReactNative/!default.perspectivev3
+ReactNative/xcuserdata
+ReactNative/*.xccheckout
+ReactNative/*.moved-aside
+ReactNative/DerivedData
+ReactNative/*.hmap
+ReactNative/*.ipa
+ReactNative/*.xcuserstate
+
+# Android/IntelliJ
+#
+ReactNative/.idea
+ReactNative/.gradle
+ReactNative/local.properties
+ReactNative/*.iml
+ReactNative/*.hprof
+
+# node.js
+#
+ReactNative/node_modules/
+ReactNative/npm-debug.log
+ReactNative/yarn-error.log
+
+# BUCK
+ReactNative/buck-out/
+ReactNative/.buckd/
+ReactNative/*.keystore
+ReactNative/!debug.keystore
+
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
+
+ReactNative/*/fastlane/report.xml
+ReactNative/*/fastlane/Preview.html
+ReactNative/*/fastlane/screenshots
+
+# Bundle artifact
+ReactNative/*.jsbundle
+
+# CocoaPods
+ReactNative/ios/Pods/
+
+ReactNative/web/dist/
