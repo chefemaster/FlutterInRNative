@@ -48,7 +48,7 @@ RCT_EXPORT_MODULE()
 }
 
 - (NSArray<NSString *> *)supportedEvents {
-    return @[@"incrementCounter", @"closeFlutterScreen", @"setCounterValue"];
+    return @[@"startModuleValue", @"closeFlutterScreen", @"callBack"];
 }
 
 RCT_EXPORT_METHOD(startFlutterActivity:(NSString *)eventName args:(NSString *)args callback:(RCTResponseSenderBlock)callback)

@@ -32,8 +32,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void _callback() {
-    platform.invokeMethod('callBack', {'data': 'Callback'});
+  void _callback(String value) {
+    platform.invokeMethod('callBack', {'data': value});
   }
 
   void _closeSystem() {
@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _openAddBook() {
+    _callback("Open add book");
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => AddBookPage()),
@@ -49,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _openListBook() {
+    _callback("Open list book");
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ListBookPage()),

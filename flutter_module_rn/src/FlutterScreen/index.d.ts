@@ -6,7 +6,7 @@ interface FlutterModuleRn {
 }
 
 interface FlutterScreenProps {
-  onCallback: (value: Object) => void;
+  onCallback: (value: string) => void;
   onScreenClose: () => void;
   startModuleValue: string;
 }

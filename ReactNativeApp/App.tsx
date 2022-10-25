@@ -32,8 +32,6 @@ import {
   getBooks,
   saveBook,
 } from './src/database';
-
-// import { Colors, Header } from 'react-native/Libraries/NewAppScreen';
 const Colors = {
   white: '#fff',
   black: '#000',
@@ -46,7 +44,7 @@ const Colors = {
 const Stack = createNativeStackNavigator();
 
 type RootStackParamList = {
-  Home: { data: Object };
+  Home: { data: string };
   Flutter: { startModuleValue: string };
 };
 
@@ -54,7 +52,6 @@ function HomeScreen({
   navigation,
   route,
 }: NativeStackScreenProps<RootStackParamList, 'Home'>) {
-  // const [books, setBooks] = useState<Book[]>([]);
   const [newBook, setNewBook] = useState('');
   const [startModuleValue] = useState<string>('ADD');
   const backgroundStyle = {
@@ -141,8 +138,8 @@ function FlutterScreenWrapper({
   navigation,
   route,
 }: NativeStackScreenProps<RootStackParamList, 'Flutter'>) {
-  const [data, setData] = useState<Object>({});
-  const onCallback = (value: Object) => {
+  const [data, setData] = useState<string>('');
+  const onCallback = (value: string) => {
     console.log(`onCallback: ${value}`);
     setData(value);
   };
