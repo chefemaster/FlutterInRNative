@@ -16,7 +16,6 @@ import {
   ScrollView,
   StatusBar,
   Text,
-  TextInput,
   View,
   StyleSheet,
 } from 'react-native';
@@ -25,13 +24,13 @@ import {
   createNativeStackNavigator,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import { FlutterScreen } from 'flutter-module-rn';
-import {
-  createTable,
-  getDBConnection,
-  getBooks,
-  saveBook,
-} from './src/database';
+import SharedPreferences from 'react-native-shared-preferences';
+import { createTable, getDBConnection } from './src/database';
+import RootStackParamList from './src/components/rootStackParamList';
+import AddBookScreen from './src/page/addBook';
+import ListBookScreen from './src/page/listBook';
+import FlutterScreenWrapper from './src/page/flutterScreenWrapper';
+
 const Colors = {
   white: '#fff',
   black: '#000',
@@ -40,28 +39,35 @@ const Colors = {
   lighter: '#eee',
   darker: '#111',
 };
-
 const Stack = createNativeStackNavigator();
-
-type RootStackParamList = {
-  Home: { data: string };
-  Flutter: { startModuleValue: string };
-};
+const styles = StyleSheet.create({
+  backgroundStyle: {
+    backgroundColor: Colors.lighter,
+    flex: 1,
+  },
+  line: {
+    borderBottomColor: 'black',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginVertical: 10,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '400',
+  },
+});
 
 function HomeScreen({
   navigation,
   route,
 }: NativeStackScreenProps<RootStackParamList, 'Home'>) {
-  const [newBook, setNewBook] = useState('');
-  const [startModuleValue] = useState<string>('ADD');
-  const backgroundStyle = {
-    backgroundColor: Colors.lighter,
-    flex: 1,
-  };
+  const [shared, setShared] = useState<String>('');
   const loadDataCallback = useCallback(async () => {
     try {
       const db = await getDBConnection();
       await createTable(db);
+      //configStoreData();
+      saveStoreData('flutter', 'Teste de shared preferences');
+      getStoreData('flutter', setShared);
     } catch (error) {
       console.log(error);
     }
@@ -69,137 +75,98 @@ function HomeScreen({
   useEffect(() => {
     loadDataCallback();
   }, [loadDataCallback]);
-  const addBook = async () => {
-    if (!newBook.trim()) {
-      return;
-    }
+  const configStoreData = () => {
+    SharedPreferences.setName('@FlutterApp');
+  };
+  const saveStoreData = (key: string, value: string) => {
     try {
-      const db = await getDBConnection();
-      const _books = await getBooks(db);
-      const newBooks = [
-        ..._books,
-        {
-          id:
-            (_books.length > 0
-              ? _books.reduce((acc, cur) => {
-                  return cur.id > acc.id ? cur : acc;
-                }).id
-              : 0) + 1,
-          title: newBook,
-        },
-      ];
-      const book = newBooks[newBooks.length - 1];
-      console.log(newBooks);
-      await saveBook(db, book);
-      setNewBook('');
+      SharedPreferences.setItem(key, value);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
+  const getStoreData = (key: string, state: (arg0: string) => void) => {
+    try {
+      return SharedPreferences.getItem(key, value => {
+        state(value as string);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const openAddBook = async () => {
+    navigation.navigate({ name: 'AddBook', params: {} });
+  };
+  const openListBook = async () => {
+    navigation.navigate({ name: 'ListBook', params: {} });
+  };
+  const openFlutter = async () => {
+    navigation.navigate({
+      name: 'Flutter',
+      params: { startModuleValue: '' },
+      merge: true,
+    });
+  };
+  const openFlutterADD = async () => {
+    navigation.navigate({
+      name: 'Flutter',
+      params: { startModuleValue: 'ADD' },
+      merge: true,
+    });
+  };
+  const openFlutterLIST = async () => {
+    navigation.navigate({
+      name: 'Flutter',
+      params: { startModuleValue: 'LIST' },
+      merge: true,
+    });
+  };
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView style={styles.backgroundStyle}>
       <StatusBar barStyle={'dark-content'} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Button
-          title={'Start Flutter Screen'}
-          onPress={() =>
-            navigation.navigate({
-              name: 'Flutter',
-              params: { startModuleValue },
-              merge: true,
-            })
-          }
+        style={styles.backgroundStyle}>
+        <Text style={styles.sectionTitle}>Shared Preferences</Text>
+        <Text>{shared}</Text>
+        <View style={styles.line} />
+        <Text style={styles.sectionTitle}>Callback</Text>
+        <Text>{route.params ? route.params.data : ''}</Text>
+        <View style={styles.line} />
+        <Button title={'Start Flutter Screen'} onPress={openFlutter} />
+        <Button title={'Start Flutter Screen ADD'} onPress={openFlutterADD} />
+        <Button title={'Start Flutter Screen LIST'} onPress={openFlutterLIST} />
+        <View
+          style={{
+            borderBottomColor: 'black',
+            borderBottomWidth: StyleSheet.hairlineWidth,
+            marginVertical: 10,
+          }}
         />
-        <View style={{ alignSelf: 'center', marginTop: 10 }}>
-          <Text>ADD BOOK</Text>
-          <Text>{route.params.data}</Text>
-        </View>
-        <View style={styles.textInputContainer}>
-          <TextInput
-            style={styles.textInput}
-            value={newBook}
-            onChangeText={text => setNewBook(text)}
-          />
-          <Button
-            onPress={addBook}
-            title="ADD BOOK"
-            color="#841584"
-            accessibilityLabel="ADD BOOK"
-          />
-        </View>
+        <Button
+          title={'ADD BOOK'}
+          onPress={openAddBook}
+          accessibilityLabel="ADD BOOK"
+        />
+        <Button
+          title={'LIST BOOK'}
+          onPress={openListBook}
+          accessibilityLabel="LIST BOOK"
+        />
       </ScrollView>
     </SafeAreaView>
   );
 }
-
-function FlutterScreenWrapper({
-  navigation,
-  route,
-}: NativeStackScreenProps<RootStackParamList, 'Flutter'>) {
-  const [data, setData] = useState<string>('');
-  const onCallback = (value: string) => {
-    console.log(`onCallback: ${value}`);
-    setData(value);
-  };
-  const onScreenClose = useCallback(() => {
-    console.log(`onScreenClose: ${data}`);
-    navigation.navigate({ name: 'Home', params: { data }, merge: true });
-  }, [data, navigation]);
-  return (
-    <FlutterScreen
-      startModuleValue={route.params.startModuleValue}
-      onCallback={onCallback}
-      onScreenClose={onScreenClose}
-    />
-  );
-}
-
 const App: React.FC = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          initialParams={{ counter: 0 }}
-        />
-        <Stack.Screen
-          name="Flutter"
-          component={FlutterScreenWrapper}
-          initialParams={{ initialCounterValue: 0 }}
-        />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="AddBook" component={AddBookScreen} />
+        <Stack.Screen name="ListBook" component={ListBookScreen} />
+        <Stack.Screen name="Flutter" component={FlutterScreenWrapper} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-const styles = StyleSheet.create({
-  appTitleView: {
-    marginTop: 20,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  appTitleText: {
-    fontSize: 24,
-    fontWeight: '800',
-  },
-  textInputContainer: {
-    marginTop: 30,
-    marginLeft: 20,
-    marginRight: 20,
-    borderRadius: 10,
-    borderColor: 'black',
-    borderWidth: 1,
-    justifyContent: 'flex-end',
-  },
-  textInput: {
-    borderWidth: 1,
-    borderRadius: 5,
-    height: 50,
-    margin: 10,
-    backgroundColor: 'pink',
-  },
-});
-
 export default App;

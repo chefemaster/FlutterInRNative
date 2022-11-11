@@ -1,29 +1,13 @@
-/* eslint-disable react-native/no-inline-styles */
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import React, { useCallback, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { FlutterScreen } from 'flutter-module-rn';
-
-type RootStackParamList = {
-  Home: { data: Object };
-  Flutter: { startModuleValue: string };
-};
-
-function FlutterScreenWrapper({
+import RootStackParamList from '../components/rootStackParamList';
+export default function FlutterScreenWrapper({
   navigation,
   route,
 }: NativeStackScreenProps<RootStackParamList, 'Flutter'>) {
-  const [data, setData] = useState<Object>({});
-  const onCallback = (value: Object) => {
+  const [data, setData] = useState<string>('');
+  const onCallback = (value: string) => {
     console.log(`onCallback: ${value}`);
     setData(value);
   };
@@ -39,4 +23,3 @@ function FlutterScreenWrapper({
     />
   );
 }
-export default FlutterScreenWrapper;

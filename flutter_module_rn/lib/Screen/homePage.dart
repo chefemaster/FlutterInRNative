@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'book/addPage.dart';
 import 'book/listPage.dart';
 
@@ -18,7 +19,32 @@ class _MyHomePageState extends State<MyHomePage> {
   static const platform = MethodChannel('pavel/flutter');
 
   String _nameModule = "";
+  String _messageStorage = "";
   final myController = TextEditingController();
+
+  Future<void> _teste() async {
+    //await _setStorage('flutter', 'TESTE shared preference Flutter');
+    await _getStorage('flutter');
+  }
+
+  Future<void> _setStorage(String key, String value) async {
+    print('_setStorage');
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(key, value);
+  }
+
+  Future<void> _getStorage(String key) async {
+    print('_getStorage');
+    final prefs = await SharedPreferences.getInstance();
+    String? message = prefs.getString(key);
+    if (message == null) {
+      return;
+    }
+    print(message);
+    setState(() {
+      _messageStorage = message;
+    });
+  }
 
   void _openModule(String nameModule) {
     switch (nameModule) {
@@ -68,6 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
             .addPostFrameCallback((timeStamp) => _openModule(_nameModule));
       }
     });
+    _teste();
     super.initState();
   }
 
@@ -90,6 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
           child: ListView(
         children: <Widget>[
+          Text(_messageStorage),
           ElevatedButton(
             child: const Text("ADD BOOK"),
             onPressed: () => _openAddBook(),
